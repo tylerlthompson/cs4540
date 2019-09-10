@@ -28,9 +28,9 @@ int main(int argc, char * argv[]) {
 	else {
 		getArrs(&arrs, size);
 		
-		//readFile(arrs, infile, &length);
+		readFile(arrs, infile, &length);
 		fclose(infile);
-		//doInteractive(arrs, length);
+		doInteractive(arrs, length);
 	} // end else no error in command line
 	printf("\nSize: %d\n", size);
 	printf("press any key: ");

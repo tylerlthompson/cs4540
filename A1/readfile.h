@@ -4,5 +4,8 @@
 
 extern void readFile(zipTowns arrs, FILE * infile, int * length);
 
+void readFile(zipTowns arrs, FILE * infile, int * length) {
+    
+}
 
 #endif // last line of file
