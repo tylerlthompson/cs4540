@@ -17,8 +17,11 @@ void getArrs(zipTowns * arrs, int size) {  // mallocs arrays of size elements
 
 void print_zipTowns(zipTowns arrs, int size) {
 	int i;
-	for(i=0; i<24; i++){
-		printf("Zip Pointer [%d]: %u %s %p\n", i, (*arrs.zips[i]).zip, (*arrs.zips[i]).town, (void *)arrs.zips[i]);
+	for(i=0; i<size; i++){
+		printf("Zip Pointer [%d]: %u %s %p\n", i, (*arrs.zips)[i].zip, (*arrs.zips)[i].town, (void *)arrs.zips[i]);
+	}
+	for(i=0; i<size; i++) {
+		printf("Zip: %u Town: %s\n", arrs.cities[i].zip, arrs.cities[i].town);
 	}
 }
 

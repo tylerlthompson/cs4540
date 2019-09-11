@@ -1,9 +1,8 @@
 #ifndef INTERACTIVE_H
 #define INTERACTIVE_H
-extern void doInteractive(zipTowns arrs, int length);
+#include "structs.h"
+#include <stdio.h>
 
-void doInteractive(zipTowns arrs, int length) {
-    
-}
+extern void doInteractive(zipTowns arrs, int length);
 
 #endif // last line of file
