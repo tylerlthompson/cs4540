@@ -3,7 +3,7 @@
 #include "structs.h"
 
 extern void readFile(zipTowns arrs, FILE * infile, int * length);
-extern void insert_zip_sorted(city * * * zips, city town, int index);
+extern void insert_zip_sorted(city * * * zips, city * cur_city, int index);
 extern void insert_town_sorted(int * towns, int index);
 
 void readFile(zipTowns arrs, FILE * infile, int * length) {
@@ -14,15 +14,15 @@ void readFile(zipTowns arrs, FILE * infile, int * length) {
             arrs.cities[i].town = town_buf;
             printf("Line: %u Zip: %d Town: %s\n", i, arrs.cities[i].zip, arrs.cities[i].town);
 
-            insert_zip_sorted(&arrs.zips, arrs.cities[i], i);
+            insert_zip_sorted(&arrs.zips, &arrs.cities[i], i);
             
             
     }
     //*length = i;
 }
 
-void insert_zip_sorted(city * * * zips, city cur_city, int index) {
-    (*zips)[index] = &cur_city;
+void insert_zip_sorted(city * * * zips, city * cur_city, int index) {
+    (*zips)[index] = cur_city;
     // int i = index - 1;
     
     // if(!index) {
