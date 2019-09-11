@@ -9,24 +9,19 @@ void readFile(zipTowns arrs, FILE * infile, int * length, int size) {
             //printf("\nLine: %u Zip: %d Town: %s\n", i, arrs.cities[i].zip, arrs.cities[i].town);
 
             insert_zip_sorted(arrs.zips, &(arrs.cities[i]), i);
-            
-            // j = i - 1;
-            // while (j >= 0 && (*arrs.zips[j]).zip > arrs.cities[i].zip) {
-            //     arrs.zips[j+1] = arrs.zips[j];
+            insert_town_sorted(arrs.towns, arrs.cities, i);
+            // j = i -1;
+            // while(j>=0 && strcmp(arrs.cities[arrs.towns[j]].town, arrs.cities[i].town) > 1){
+            //     arrs.towns[j+1] = arrs.towns[j];
             //     j--;
             // }
-            // arrs.zips[j+1] = &(arrs.cities[i]);
-
-
-           
-
+            // arrs.towns[j+1] = i;
     }
     *length = i;
 }
 
 void insert_zip_sorted(city * * zips, city * cur_city, int length) {
-    int i;
-    i = length - 1;
+    int i = length - 1;
     while (i >= 0 && (*zips[i]).zip > (*cur_city).zip) {
         zips[i+1] = zips[i];
         i--;
@@ -34,6 +29,11 @@ void insert_zip_sorted(city * * zips, city * cur_city, int length) {
     zips[i+1] = cur_city;
 }
 
-void insert_town_sorted(int * towns, int index) {
-    
+void insert_town_sorted(int * towns, city * cities, int index) {
+    int i = index - 1;
+    while (i >= 0 && strcmp(cities[towns[i]].town, cities[index].town) > 1) {
+        towns[i+1] = towns[i];
+        i--;
+    }
+    towns[i+1] = index;
 }

@@ -24,6 +24,9 @@ void print_zipTowns(zipTowns arrs, int size) {
 	for(i=0; i<size; i++) {
 		printf("Zip: %u Town: %s\n", arrs.cities[i].zip, arrs.cities[i].town);
 	}
+	for(i=0; i<size; i++) {
+		printf("Town: %s MainIndex: %d\n", arrs.cities[arrs.towns[i]].town, arrs.towns[i]);
+	}
 }
 
 extern int getArgsInfoOpenFile(int argc, char * argv[], FILE * * infile, int * size); // 0 ok, !0 error
