@@ -7,7 +7,7 @@
 
 void getArrs(zipTowns * arrs, int size) {  // mallocs arrays of size elements
 	arrs->towns = malloc(sizeof(int) * size);
-	arrs->zips = malloc(sizeof(city *) * size);
+	arrs->zips = malloc(sizeof(void *) * size * size);
 	arrs->cities = malloc(sizeof(city) * size);
 	// two more lines
 	// towns[0] is an int
@@ -18,7 +18,8 @@ void getArrs(zipTowns * arrs, int size) {  // mallocs arrays of size elements
 void print_zipTowns(zipTowns arrs, int size) {
 	int i;
 	for(i=0; i<size; i++){
-		printf("Zip Pointer [%d]: %u %s %p\n", i, (*arrs.zips)[i].zip, (*arrs.zips)[i].town, (void *)arrs.zips[i]);
+		//printf("Zip Pointer [%d]: %u %s %p\n", i, (*arrs.zips)[i].zip, (*arrs.zips)[i].town, arrs.zips[i]);
+		printf("Zip Pointer [%d]: %u %s\n", i, (*arrs.zips[i]).zip, (*arrs.zips[i]).town);
 	}
 	for(i=0; i<size; i++) {
 		printf("Zip: %u Town: %s\n", arrs.cities[i].zip, arrs.cities[i].town);
@@ -40,13 +41,13 @@ int main(int argc, char * argv[]) {
 	else {
 		getArrs(&arrs, size);
 		
-		readFile(arrs, infile, &length);
+		readFile(arrs, infile, &length, size);
 		fclose(infile);
 		doInteractive(arrs, length);
 	} // end else no error in command line
 	printf("press any key: ");
 	getc(stdin);
-	print_zipTowns(arrs, size);
+	print_zipTowns(arrs, length);
 	return 0;
 }
 
