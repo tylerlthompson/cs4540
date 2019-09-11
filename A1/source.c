@@ -7,10 +7,19 @@
 
 void getArrs(zipTowns * arrs, int size) {  // mallocs arrays of size elements
 	arrs->towns = malloc(sizeof(int) * size);
+	arrs->zips = malloc(sizeof(city *) * size);
+	arrs->cities = malloc(sizeof(city) * size);
 	// two more lines
 	// towns[0] is an int
 	// zips[0] is a (citie *)
 	// city[0] is a citie
+}
+
+void print_zipTowns(zipTowns arrs, int size) {
+	int i;
+	for(i=0; i<24; i++){
+		printf("Zip Pointer [%d]: %u %p\n", i, (*arrs.zips[i]).zip, (void *)arrs.zips[i]);
+	}
 }
 
 extern int getArgsInfoOpenFile(int argc, char * argv[], FILE * * infile, int * size); // 0 ok, !0 error
@@ -32,10 +41,9 @@ int main(int argc, char * argv[]) {
 		fclose(infile);
 		doInteractive(arrs, length);
 	} // end else no error in command line
-	printf("\nSize: %d\n", size);
 	printf("press any key: ");
 	getc(stdin);
-	
+	print_zipTowns(arrs, size);
 	return 0;
 }
 
@@ -50,14 +58,11 @@ int getArgsInfoOpenFile(int argc, char * argv[], FILE ** infile, int * size) // 
 		*infile = fopen(argv[1], "r");
 		*size = atoi(argv[2]);
 
-		if(!*infile) {
+		if(!*infile) { // handle path not found
 			printf("\nFailed to open file: %s\n", argv[1]);
 			retval = 1;
 		} 
-		
-		// retval = fscanf(*infile, "%d", &test_val);
 	}
-
 	// return file and size in parameters or error
 	return retval;
 }
