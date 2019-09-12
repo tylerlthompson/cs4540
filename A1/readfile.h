@@ -5,7 +5,7 @@
 #include <string.h>
 #include "structs.h"
 
-extern void readFile(zipTowns arrs, FILE * infile, int * length, int size);
+extern void readFile(zipTowns arrs, FILE * infile, int * length);
 
 extern void insert_zip_sorted(city * * zips, city * cur_city, int length);
 extern void insert_town_sorted(int * towns, city * cities, int index);

@@ -35,13 +35,16 @@ int main(int argc, char * argv[]) {
 		printf("error in command line arguments\n");
 	else {
 		getArrs(&arrs, size);
-		
-		readFile(arrs, infile, &length, size);
+        /* new line below *************** */
+		length = size;
+
+		readFile(arrs, infile, &length);
 		fclose(infile);
 		doInteractive(arrs, length);
 	} // end else no error in command line
 	printf("press any key: ");
 	getc(stdin);
+	
 	return 0;
 }
 

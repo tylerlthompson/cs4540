@@ -1,15 +1,15 @@
 #include "readfile.h"
 
-void readFile(zipTowns arrs, FILE * infile, int * length, int size) {
+void readFile(zipTowns arrs, FILE * infile, int * length) {
     int i;
-    char town_buf[size][64]; // using buffer instead of reading directly into array. room for improvment.
+    char town_buf[256][64]; // using buffer instead of reading directly into array. room for improvment.
 
-    for (i=0; fscanf(infile, "%u\t%s", &arrs.cities[i].zip, town_buf[i]) != EOF && i<size; i++) {
+    for (i=0; fscanf(infile, "%u\t%s", &arrs.cities[i].zip, town_buf[i]) != EOF && i<(*length); i++) {
             arrs.cities[i].town = town_buf[i]; // read town out of buffer
             insert_zip_sorted(arrs.zips, &(arrs.cities[i]), i); // insert pointer to zips array
             insert_town_sorted(arrs.towns, arrs.cities, i); // insert index to towns array
     }
-    *length = i;
+    //*length = i;
     print_zipTowns(arrs, i);
 }
 
