@@ -3,6 +3,7 @@
 * WMU CS4540 - A1
 * Sept 11, 2019
 */
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,8 +1,9 @@
 #ifndef READFILE_H
 #define READFILE_H
-#include "structs.h"
+
 #include <stdio.h>
 #include <string.h>
+#include "structs.h"
 
 extern void readFile(zipTowns arrs, FILE * infile, int * length, int size);
 

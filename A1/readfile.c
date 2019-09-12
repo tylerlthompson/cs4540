@@ -2,7 +2,7 @@
 
 void readFile(zipTowns arrs, FILE * infile, int * length, int size) {
     int i;
-    char town_buf[sizeof(char) * size][64]; // using buffer instead of reading directly into array. room for improvment.
+    char town_buf[size][64]; // using buffer instead of reading directly into array. room for improvment.
 
     for (i=0; fscanf(infile, "%u\t%s", &arrs.cities[i].zip, town_buf[i]) != EOF && i<size; i++) {
             arrs.cities[i].town = town_buf[i]; // read town out of buffer
