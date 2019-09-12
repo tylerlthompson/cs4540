@@ -8,3 +8,9 @@ source.o : readfile.h interactive.h structs.h
 readfile.o : readfile.h structs.h
 
 interactive.o : interactive.h structs.h
+
+clean:
+	rm -f *.o core source
+
+run:
+	./source
