@@ -1,3 +1,8 @@
+/**
+* Tyler Thompson
+* WMU CS4540 - A1
+* Sept 11, 2019
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,14 +48,14 @@ int getArgsInfoOpenFile(int argc, char * argv[], FILE ** infile, int * size) // 
 {
 	int retval = 0;
 
-	if(argc != 3) { // test for correct arguments number 3: exename, filename, size
+	if (argc != 3) { // test for correct arguments number 3: exename, filename, size
 		retval = 1;
 	}
 	else { // attempt to open file
 		*infile = fopen(argv[1], "r");
 		*size = atoi(argv[2]);
 
-		if(!*infile) { // handle path not found
+		if (!*infile) { // handle path not found
 			printf("\nFailed to open file: %s Check that your path is correct.\n", argv[1]);
 			retval = 1;
 		} 
