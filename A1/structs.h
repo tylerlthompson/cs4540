@@ -1,3 +1,8 @@
+/**
+* Tyler Thompson
+* WMU CS4540 - A1
+* Sept 11, 2019
+*/
 #ifndef STRUCTS_H
 #define STRUCTS_H
 typedef struct cityStruct { unsigned int zip; char * town; } city;

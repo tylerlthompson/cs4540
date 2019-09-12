@@ -1,3 +1,8 @@
+/**
+* Tyler Thompson
+* WMU CS4540 - A1
+* Sept 11, 2019
+*/
 #ifndef READFILE_H
 #define READFILE_H
 
