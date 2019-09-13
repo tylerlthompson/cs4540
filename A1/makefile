@@ -12,5 +12,5 @@ interactive.o : interactive.h structs.h
 clean:
 	rm -f *.o core source
 
-run:
-	./source
+testrun:
+	./source zip_code_sample.txt 100

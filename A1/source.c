@@ -56,11 +56,10 @@ int getArgsInfoOpenFile(int argc, char * argv[], FILE ** infile, int * size) // 
 		retval = 1;
 	}
 	else { // attempt to open file
-		*infile = fopen(argv[1], "r");
 		*size = atoi(argv[2]);
 
-		if (!*infile) { // handle path not found
-			printf("\nFailed to open file: %s Check that your path is correct.\n", argv[1]);
+		if (!(*infile = fopen(argv[1], "r"))) { // handle path not found
+			printf("\nFailed to open file %s Check that your path is correct.\n", argv[1]);
 			retval = 1;
 		} 
 	}
