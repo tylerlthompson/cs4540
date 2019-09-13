@@ -53,13 +53,14 @@ int getArgsInfoOpenFile(int argc, char * argv[], FILE ** infile, int * size) // 
 	int retval = 0;
 
 	if (argc != 3) { // test for correct arguments number 3: exename, filename, size
+		printf("Incorrect number of arguments pass. Usage: %s [filename] [size]\n", argv[0]);
 		retval = 1;
 	}
 	else { // attempt to open file
 		*size = atoi(argv[2]);
 
 		if (!(*infile = fopen(argv[1], "r"))) { // handle path not found
-			printf("\nFailed to open file %s Check that your path is correct.\n", argv[1]);
+			printf("Failed to open file %s Check that your path is correct.\n", argv[1]);
 			retval = 1;
 		} 
 	}
