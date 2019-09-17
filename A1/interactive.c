@@ -12,7 +12,7 @@ void doInteractive(zipTowns arrs, int length) {
 
     // prompt user for command
     printf("1.\tQuit\n2.\tSearch for zip\n3.\tSearch for town\nCommand: ");
-    scanf(" %s", input_buf);
+    scanf(" %s%*c", input_buf);
 
     // process user command 
     switch (input_buf[0]) {
