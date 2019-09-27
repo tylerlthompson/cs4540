@@ -58,6 +58,8 @@ void add_proc_to_queue(process * procs, ui * queue, ui * queue_count, int index)
     queue[i+1] = index;
     (*queue_count)++;
     procs[index].waitCount++;
+    procs[index].curPrior = 0;
+    procs[index].wait = 0;
 }
 
 void add_all_procs_to_queue(process * proces, ui * queue, ui * queue_count, const int process_count) {
@@ -72,7 +74,7 @@ void sort_queue(process * procs, ui * queue, ui queue_count) {
     int i, j;
     for (i=0; i<queue_count-1; i++){
         for (j=0; j<queue_count-i-1; j++) {
-            if (procs[queue[j]].curPrior < procs[queue[j+1]].curPrior) {
+            if (procs[queue[j]].curPrior > procs[queue[j+1]].curPrior) {
                 ui temp = queue[j];
                 queue[j] = queue[j+1];
                 queue[j+1] = temp;
@@ -115,18 +117,22 @@ void process_io_queue(process * procs, ui * io, ui * io_count, ui * queue, ui * 
     }
 }
 
+void print_proc(process proc) {
+    printf("Priority: %-2u CPU: %u IO: %u curCPU: %-2u curIo %-4u wait: %-4u curPrior: %-4u cpuTotal: %-4u ioTotal: %-4u waitSum: %-6u waitCount: %-4u waitMin: %-4u waitMax: %-4u\n",
+        proc.priority, proc.cpu, proc.io, proc.curCpu, proc.curIo, proc.wait, proc.curPrior, proc.cpuTotal, proc.ioTotal, proc.waitSum, proc.waitCount, proc.waitMin, proc.waitMax);
+}
+
 void print_procs(process * procs, const int process_count) {
     int i;
     for (i=0; i<process_count; i++) {
-        printf("Priority: %u CPU: %u IO: %u curCPU: %u curIo %u wait: %u curPrior: %u cpuTotal: %u ioTotal: %u waitSum: %u waitCount: %u waitMin: %u waitMax: %u\n",
-        procs[i].priority, procs[i].cpu, procs[i].io, procs[i].curCpu, procs[i].curIo, procs[i].wait, procs[i].curPrior, procs[i].cpuTotal, procs[i].ioTotal, procs[i].waitSum, procs[i].waitCount, procs[i].waitMin, procs[i].waitMax);
+        print_proc(procs[i])    ;
     }
 }
 
 void print_queue(ui * queue, process * procs, const int process_count) {
     int i;
     for (i=0; i<process_count; i++) {
-        printf("Index: %d Priority: %u\n", i, procs[queue[i]].priority);
+        printf("Index: %d Priority: %u curPrior: %u\n", i, procs[queue[i]].priority, procs[queue[i]].curPrior);
     }
 }
 
@@ -139,7 +145,8 @@ int main(int argc, char * argv[]) {
     ui io_count = 0;
     ui cpu;
     os my_os = { .quantum=70, .wait=30 };
-    int i;
+    ui cycle;
+    ui next_cpu;
 
     FILE * in_file = NULL;
     char * file_path;
@@ -155,21 +162,24 @@ int main(int argc, char * argv[]) {
             cpu = queue[queue_count];
             queue_count--;
 
-            for (i=0; i<10000; i++) {
-                
+            for (cycle=0; cycle<10000; cycle++) {
+                //printf("Cycle: %u Processing: %u Queue Size: %u IO Size: %u\n", cycle, cpu, queue_count, io_count);
+                //print_proc(a[cpu]);
                 if (a[cpu].curCpu == a[cpu].cpu) {
                     io[io_count] = cpu; // move to IO queue
                     io_count++; 
                     a[cpu].cpuTotal += a[cpu].curCpu; // adjust cpu total
                     a[cpu].curCpu = 0;
-                    cpu = queue[queue_count]; // load next process
+                    cpu = queue[queue_count-1]; // load next process
                     queue_count--;
                     a[cpu].wait = 0;
                 }
-                else if (a[cpu].curCpu >= my_os.quantum) {
+                else if (a[cpu].curCpu == my_os.quantum) {
+                    next_cpu = queue[queue_count-1];
                     add_proc_to_queue(a, queue, &queue_count, queue_count); // move process back to wait queue
                     a[cpu].cpuTotal += a[cpu].curCpu; // adjust cpu total
-                    cpu = queue[queue_count]; // load next process
+                    a[cpu].curCpu = 0;
+                    cpu = next_cpu; // load next process
                     queue_count--;
                     a[cpu].wait = 0;
                 }
