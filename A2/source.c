@@ -88,6 +88,7 @@ int main(int argc, char * argv[]) {
                 a[cpu].curCpu++;
                 a[cpu].cpuTotal++;
             }
+            printf("CPU Cycle Count: %d Process Count: %d\n", cycle_count, process_count);
             print_procs(a, process_count);
             printStats(a, my_os);
         }
@@ -209,16 +210,18 @@ void process_io_queue(process * procs, ui * io, ui * io_count, ui * queue, ui * 
  * Print all the attributes of a process
  */
 void print_proc(process proc) {
-    printf("Priority: %-2u CPU: %u IO: %u curCPU: %-2u curIo %-4u wait: %-4u curPrior: %-4u cpuTotal: %-4u ioTotal: %-4u waitSum: %-6u waitCount: %-4u waitMin: %-4u waitMax: %-4u\n",
-        proc.priority, proc.cpu, proc.io, proc.curCpu, proc.curIo, proc.wait, proc.curPrior, proc.cpuTotal, proc.ioTotal, proc.waitSum, proc.waitCount, proc.waitMin, proc.waitMax);
+//    printf("Priority: %-2u CPU: %u IO: %u curCPU: %-2u curIo %-4u wait: %-4u curPrior: %-4u cpuTotal: %-4u ioTotal: %-4u waitSum: %-6u waitCount: %-4u waitMin: %-4u waitMax: %-4u\n",
+//        proc.priority, proc.cpu, proc.io, proc.curCpu, proc.curIo, proc.wait, proc.curPrior, proc.cpuTotal, proc.ioTotal, proc.waitSum, proc.waitCount, proc.waitMin, proc.waitMax);
+    printf("%-8u %-3u %-2u %-6u %-5u %-4u %-8u %-8u %-7u %-7u %-9u %-7u %-7u\n", proc.priority, proc.cpu, proc.io, proc.curCpu, proc.curIo, proc.wait, proc.curPrior, proc.cpuTotal, proc.ioTotal, proc.waitSum, proc.waitCount, proc.waitMin, proc.waitMax);
 }
+
 
 /**
  * Print all the attributes of an array of processes
  */
 void print_procs(process * procs, const int process_count) {
     int i;
-    printf("\nProcess Summary\n");
+    printf("Priority CPU IO curCPU curIo wait curPrior cpuTotal ioTotal waitSum waitCount waitMin waitMax\n");
     for (i=0; i<process_count; i++) {
         print_proc(procs[i])    ;
     }
