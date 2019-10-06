@@ -59,9 +59,7 @@ int main(int argc, char * argv[]) {
     }
 
     // join all threads
-    for (i=0; i<NUM_THREADS; i++) {
-        pthread_join(threads[i], NULL);
-    }
+    for (i=0; i<NUM_THREADS; i++) pthread_join(threads[i], NULL);
 
     printf("Done.\n");
     return 0;
