@@ -18,6 +18,7 @@ void * Process(void * args_t);
 int getSemaphores(sem_t * screen, sem_t * keyboard, int index);
 void handle_sigterm();
 
+/* arguments for a thread */
 struct arg_struct {
     sem_t * screen;
     sem_t * keyboard;
@@ -26,11 +27,12 @@ struct arg_struct {
 };
 
 int main(int argc, char * argv[]) {
-
     sem_t sems, semk;
     pthread_t threads[NUM_THREADS];
     struct arg_struct thread_args[NUM_THREADS];
     int i, done_threads = 0;
+
+    printf("Running semaphore assignment using threads\n");
 
     // sem_open both semaphores
     sem_init(&sems, 0, 1);
@@ -52,11 +54,7 @@ int main(int argc, char * argv[]) {
     // wait until all threads are done
     while(done_threads != NUM_THREADS) {
         done_threads = 0;
-        for (i=0; i<NUM_THREADS; i++) {
-            if (thread_args[i].thread_complete == 1) {
-                done_threads++;
-            }
-        }
+        for (i=0; i<NUM_THREADS; i++) done_threads += thread_args[i].thread_complete;
         sleep(1);
     }
 
@@ -69,6 +67,9 @@ int main(int argc, char * argv[]) {
     return 0;
 }   
 
+/**
+ * Handle term signal by unlinking semaphores
+ */
 void handle_sigterm() {
     sem_unlink("/sems");
     sem_unlink("/semk");
@@ -76,7 +77,10 @@ void handle_sigterm() {
     exit(0);
 }
 
-void * Process (void * args_t) {
+/**
+ * The main function that is run in each thread
+ */
+void * Process(void * args_t) {
     int status, count = 0;
     char input[80];
     struct arg_struct * args = args_t;

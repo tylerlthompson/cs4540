@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <signal.h>
 
+#define NUM_PROCESSES 7
+
 void Process(sem_t * screen, sem_t * keyboard, int index);
 int getSemaphores(sem_t * screen, sem_t * keyboard, int index);
 void handle_sigterm();
@@ -20,7 +22,7 @@ void handle_sigterm();
 
 int main(int argc, char * argv[]) {
     sem_t * sems, * semk;
-    int pids[7]; 
+    int pids[NUM_PROCESSES]; 
     int pid, i = 0, j = 0;
 
     // sem_open both semaphores
@@ -35,13 +37,14 @@ int main(int argc, char * argv[]) {
             pids[i] = pid;
             i++;
         }
-    } while( i < 7 && pid > 0);
+    } while( i < NUM_PROCESSES && pid > 0);
 
     if(i >= 7) { // stop forking around
+        printf("Running semaphore assignment using processes\n");
         signal(SIGTERM, handle_sigterm);
         signal(SIGINT, handle_sigterm);
         // after all die, use single call or loop based on ids saved above
-        for(j=0; j<7; j++) waitpid(pids[j], NULL, 0);
+        for(j=0; j<NUM_PROCESSES; j++) waitpid(pids[j], NULL, 0);
 
         // sem_unlink both
         sem_unlink("/sems");
@@ -52,6 +55,9 @@ int main(int argc, char * argv[]) {
     return 0;
 }   
 
+/**
+ * Handle term signal by unlinking semaphores
+ */
 void handle_sigterm() {
     sem_unlink("/sems");
     sem_unlink("/semk");
@@ -59,7 +65,10 @@ void handle_sigterm() {
     exit(0);
 }
 
-void Process (sem_t * screen, sem_t * keyboard, int index) {
+/**
+ * The main function that is run in each process
+ */
+void Process(sem_t * screen, sem_t * keyboard, int index) {
     int count = 0, status, id = getpid();
     char input[80];
 
